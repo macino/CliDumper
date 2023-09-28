@@ -1,0 +1,20 @@
+{
+    "name": "macino/cli-dumper",
+    "description": "Alternative for dumping vars in terminal env. Neat and compact with possible highlights.",
+    "type": "library",
+    "require": {
+        "php": ">=8.2"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Macino\\CliDumper\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "tomas.macik",
+            "email": "tomas.macik@gmail.com"
+        }
+    ]
+}
