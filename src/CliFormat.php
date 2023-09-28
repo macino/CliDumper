@@ -20,20 +20,20 @@ class CliFormat
     const BG_WHITE = '\e[47m%s';
     const RESET = '\e[0m';
 
-    public function format(string $message, string|array $format): string
+    public static function format(string $message, string|array $format): string
     {
         if (is_string($format)) {
             $format = [$format];
         }
         $currentFormat = array_unshift($format);
-        return $this->format_($message, $currentFormat, $format);
+        return self::format_($message, $currentFormat, $format);
     }
 
-    private function format_(string $message, string $currentFormat, array $remainingFormats): string
+    private static function format_(string $message, string $currentFormat, array $remainingFormats): string
     {
         $message = sprintf($currentFormat, $message);
         return $remainingFormats
-            ? $this->format_(
+            ? self::format_(
                 sprintf($currentFormat, $message),
                 $remainingFormats[0],
                 array_slice($remainingFormats, 1),

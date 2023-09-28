@@ -149,21 +149,14 @@ class CliDumper
     {
         return function (mixed $v, string $type)
         {
-            switch ($type) {
-                case 'error':
-                    return CLI::color($v, 'red');
-                case 'null':
-                case 'bool':
-                    return CLI::color($v, 'purple');
-                case 'string':
-                    return CLI::color($v, 'blue');
-                case 'trunc':
-                case 'empty':
-                    return CLI::color($v, 'yellow');
-                case 'num':
-                    return CLI::color($v, 'green');
-            }
-            return $v;
+            return match ($type) {
+                'error' => CliFormat::format($v, CliFormat::FG_RED),
+                'null', 'bool' => CliFormat::format($v, CliFormat::FG_PURPLE),
+                'string' => CliFormat::format($v, CliFormat::FG_BLUE),
+                'trunc', 'empty' => CliFrotmat::format($v, CliFormat::FG_GREEN),
+                'num' => CliFormat::format($v, CliFormat::FG_CYAN),
+                default => $v,
+            };
         };
     }
 }
