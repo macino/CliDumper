@@ -3,7 +3,8 @@
     "description": "Alternative for dumping vars in terminal env. Neat and compact with possible highlights.",
     "type": "library",
     "require": {
-        "php": ">=8.2"
+        "php": ">=8.2",
+        "phpunit/phpunit": "*"
     },
     "license": "MIT",
     "autoload": {
