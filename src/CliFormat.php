@@ -26,6 +26,6 @@ class CliFormat
         if (is_string($format)) {
             $format = [$format];
         }
-        return sprintf("%s%s" . CliFormat::RESET, implode('', $format), $message);
+        return implode('', $format) . $message . CliFormat::RESET;
     }
 }
