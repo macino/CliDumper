@@ -18,3 +18,24 @@ I was searching for something particular in these logs. And as I don't mind sear
 There can be format, that doesn't need to be parsed (although it can be). And it also would be compact but still showing all the sweet data you got in your app. (was a remark on "some sweet vowels" from IT crowd. I'm old and you are dirty).
 
 We have a lot to sacrifice from previous formats and still maintain readability. We can then structure it in a way, that is obvious to human eye and use some tricks from stone age to make it even more readable and hip. The clever trick is color. I bet my lunch money that almost every terminal you are connected to can do colors (unless you work for a bank or the government)
+
+## Enough of the side story and here we go. How
+does it solve it ie what does it do.
+
+- compact output
+- customizable output
+- highlights of scalar types
+
+## Instalation
+
+- composer instalation
+
+## Usage
+
+- usage example
+
+## Methods
+
+- CliDumper
+- CliFormatter
+
