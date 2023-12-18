@@ -153,7 +153,7 @@ class CliDumper
                 'error' => CliFormat::format($v, CliFormat::FG_RED),
                 'null', 'bool' => CliFormat::format($v, CliFormat::FG_PURPLE),
                 'string' => CliFormat::format($v, CliFormat::FG_BLUE),
-                'trunc', 'empty' => CliFrotmat::format($v, CliFormat::FG_GREEN),
+                'trunc', 'empty' => CliFormat::format($v, CliFormat::FG_GREEN),
                 'num' => CliFormat::format($v, CliFormat::FG_CYAN),
                 default => $v,
             };
