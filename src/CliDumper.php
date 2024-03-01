@@ -38,8 +38,8 @@ class CliDumper
     /**
      * @param string $msg message before variable dumping or just string export
      * @param mixed $data data for dump
-     * @param bool $separate if true, a line of 80 dashes will be generated before any other output
      * @param bool $separateLeafs separate last scalar members and order them by key
+     * @param bool $separate if true, a line of 80 dashes will be generated before any other output
      * @return void
      */
     public function dump(string $msg, mixed $data = null, bool $separateLeafs = false, bool $separate = false): void
@@ -58,12 +58,12 @@ class CliDumper
      *
      * @param string $msg message before variable dumping or just string export
      * @param mixed $data data for dump
-     * @param bool $separate if true, a line of 80 '-' will be generated before any other output
      * @param bool $separateLeafs separate last scalar members and order them by key
+     * @param bool $separate if true, a line of 80 '-' will be generated before any other output
      * @return void
      */
     public function d(string $msg, mixed $data = null, bool $separateLeafs = false, bool $separate = false): void{
-        $this->dump($msg, $data, $separate, $separateLeafs);
+        $this->dump($msg, $data, $separateLeafs, $separate);
     }
 
     /**
