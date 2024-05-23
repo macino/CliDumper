@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": ">=8.2",
-        "phpunit/phpunit": "^10.3"
+        "phpunit/phpunit": "^9.1"
     },
     "license": "MIT",
     "autoload": {
