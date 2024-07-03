@@ -115,7 +115,8 @@ class CliDumper
                 # sort by key so the searching through the logs would be more humane
                 ksort($rtn);
                 if ($separateLeafs) {
-                    return implode("\n", $rtn);
+                    $separator = "\n" . str_repeat(".\t", $level);
+                    return $separator . implode($separator, $rtn);
                 }
                 return implode(', ', $rtn);
             }
