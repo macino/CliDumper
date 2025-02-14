@@ -4,6 +4,12 @@ namespace Macino\CliDumper;
 
 class CliDumper
 {
+    const FM_ERROR = CliFormat::FG_RED;
+    const FM_NULL_BOOL = CliFormat::FG_PURPLE;
+    const FM_STRING = CliFormat::FG_BLUE;
+    const FM_TRUNC_EMPTY = CliFormat::FG_GREEN;
+    const FM_NUM = CliFormat::FG_CYAN;
+
     /**
      * @var bool dump output is enabled
      */
@@ -151,13 +157,96 @@ class CliDumper
         return function (mixed $v, string $type)
         {
             return match ($type) {
-                'error' => CliFormat::format($v, CliFormat::FG_RED),
-                'null', 'bool' => CliFormat::format($v, CliFormat::FG_PURPLE),
-                'string' => CliFormat::format($v, CliFormat::FG_BLUE),
-                'trunc', 'empty' => CliFormat::format($v, CliFormat::FG_GREEN),
-                'num' => CliFormat::format($v, CliFormat::FG_CYAN),
+                'error' => CliFormat::format($v, CliDumper::FM_ERROR),
+                'null', 'bool' => CliFormat::format($v, CliDumper::FM_NULL_BOOL),
+                'string' => CliFormat::format($v, CliDumper::FM_STRING),
+                'trunc', 'empty' => CliFormat::format($v, CliDumper::FM_TRUNC_EMPTY),
+                'num' => CliFormat::format($v, CliDumper::FM_NUM),
                 default => $v,
             };
         };
+    }
+
+    /**
+     * Prints a debug message in the CLI with a specific type and formatting.
+     *
+     * The type of the debug message determines its color when displayed in the CLI:
+     * - 'info' (default): Light gray
+     * - 'warn': Yellow
+     * - 'error': Red
+     *
+     * @param string $msg The debug message to display.
+     * @param string $type The type of the message ('info', 'warn', or 'error').
+     * @return void
+     */
+    public function debugMessage(string $msg, string $type = 'info'): void
+    {
+        $formats = [
+            'info' => CliFormat::FG_LIGHT_GRAY,
+            'warn' => CliFormat::FG_YELLOW,
+            'error' => CliFormat::FG_RED,
+        ];
+        $color = $formats[$type] ?? CliFormat::FG_LIGHT_GRAY;
+        echo "@ " . CliFormat::format($msg, $color) . "\n";
+    }
+
+    
+    /**
+     * Alias for debugMessage
+     *
+     * Outputs a debug message to the CLI with the provided formatting type.
+     *
+     * @param string $msg The debug message to display.
+     * @param string $type The type of the message ('info', 'warn', or 'error').
+     *                      Defaults to 'info'.
+     * @return void
+     */
+    public function dm(string $msg, string $type = 'info'): void
+    {
+        $this->debugMessage($msg, $type);
+    }
+
+    
+    /**
+     * Outputs benchmarking information to the CLI.
+     *
+     * Formats the benchmark name alongside the time measured in milliseconds,
+     * with an optional message appended at the end.
+     *
+     * Example output:
+     * @ BenchmarkName: 123ms Optional message
+     *
+     * @param Benchmark $bm The benchmark instance which provides name and time.
+     * @param string $msg Optional message to be appended to the output.
+     * @return void
+     */
+    public function dumpBenchMark(Benchmark $bm, string $msg = ''): void
+    {
+        echo sprintf(
+            "@ %s: %s%s\n",
+            $bm->getName(),
+            CliFormat::format($bm->getMarkMs() . 'ms', CliDumper::FM_NUM),
+            $msg ? ' ' . $msg : ''
+        );
+    }
+
+
+    /**
+     * Alias for dumpBenchMark
+     *
+     * Outputs a benchmark instance alongside its time in milliseconds and an optional message.
+     *
+     * This method serves as a shorthand for the dumpBenchMark method, with identical behavior.
+     *
+     * Example output:
+     * @ BenchmarkName: 123ms Optional message
+     *
+     * @param Benchmark $bm The benchmark instance which provides name and time.
+     * @param string $msg Optional message to be appended to the output.
+     * @return void
+     */
+    public function dbm(Benchmark $bm, string $msg = ''): void
+    {
+        $this->dumpBenchMark($bm, $msg);
     }
 }

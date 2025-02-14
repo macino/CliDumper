@@ -1,5 +1,6 @@
 <?php
 
+use Macino\CliDumper\Benchmark;
 use PHPUnit\Framework\TestCase;
 use Macino\CliDumper\CliDumper;
 
@@ -98,5 +99,39 @@ class CliDumperTest extends TestCase
             'Complex'
         );
 
+    }
+    
+    public function testDebugMessage()
+    {
+        if (!isset($this->dumper)) {
+            $this->dumper = new Macino\CliDumper\CliDumper();
+            $this->dumper->formatter = $this->dumper->formatter();
+        }
+        $message = 'This is a debug message';
+        $expectedOutput = "@ [37mThis is a debug message[0m\n";
+
+        ob_start();
+        $this->dumper->dm($message);
+        $result = ob_get_clean();
+
+        $this->assertEquals($expectedOutput, $result, 'Debug message output is not correct');
+    }
+
+    public function testDumpBenchmark()
+    {
+        if (!isset($this->dumper)) {
+            $this->dumper = new Macino\CliDumper\CliDumper();
+            $this->dumper->formatter = $this->dumper->formatter();
+        }
+        $bm = new Benchmark('test bm');
+
+        $expectedPattern = "/@ test bm: \e\[36m\d+\.\d{4,}ms\e\[0m\\n/";
+
+        // Assuming `dumpBenchmark` calculates and dumps benchmark time
+        ob_start();
+        $this->dumper->dbm($bm);
+        $result = ob_get_clean();
+
+        $this->assertMatchesRegularExpression($expectedPattern, $result, 'Dump benchmark output is not correct');
     }
 }
