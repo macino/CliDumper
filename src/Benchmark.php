@@ -4,8 +4,9 @@ namespace Macino\CliDumper;
 
 class Benchmark
 {
-    private int $startTs;
-    private int $markTs;
+    private float $startTs;
+    private float $markTs;
+    private float $prevMarkTs;
     private string $name;
 
     public function __construct(string $name)
@@ -16,7 +17,7 @@ class Benchmark
 
     public function start(): void
     {
-        $this->startTs = $this->markTs = microtime(true);
+        $this->startTs = $this->markTs = $this->prevMarkTs = microtime(true);
     }
 
     /**
@@ -34,12 +35,14 @@ class Benchmark
 
     public function getMarkTs()
     {
-        return ($this->markTs = microtime(true)) - $this->startTs;
+        $this->prevMarkTs = $this->markTs;
+        $this->markTs = microtime(true);
+        return $this->markTs - $this->startTs;
     }
 
-    public function getMarkDelta(): int
+    public function getMarkDelta(): float
     {
-        return $this->markTs - $this->startTs;
+        return $this->markTs - $this->prevMarkTs;
     }
     
     private function ts2ms(float $timestamp): string

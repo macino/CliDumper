@@ -124,6 +124,7 @@ class CliDumperTest extends TestCase
             $this->dumper->formatter = $this->dumper->formatter();
         }
         $bm = new Benchmark('test bm');
+        $bm->start();
 
         $expectedPattern = "/@ test bm: \[\e\[36m\d+\.\d{4,}ms\e\[0m Δ \e\[36m\d+\.\d{4,}ms\e\[0m\]\\n/";
 
