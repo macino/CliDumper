@@ -223,9 +223,10 @@ class CliDumper
     public function dumpBenchMark(Benchmark $bm, string $msg = ''): void
     {
         echo sprintf(
-            "@ %s: %s%s\n",
+            "@ %s: [%s Δ %s]%s\n",
             $bm->getName(),
             CliFormat::format($bm->getMarkMs() . 'ms', CliDumper::FM_NUM),
+            CliFormat::format($bm->getMarkDeltaMs() . 'ms', CliDumper::FM_NUM),
             $msg ? ' ' . $msg : ''
         );
     }

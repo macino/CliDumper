@@ -125,7 +125,7 @@ class CliDumperTest extends TestCase
         }
         $bm = new Benchmark('test bm');
 
-        $expectedPattern = "/@ test bm: \e\[36m\d+\.\d{4,}ms\e\[0m\\n/";
+        $expectedPattern = "/@ test bm: \[\e\[36m\d+\.\d{4,}ms\e\[0m Δ \e\[36m\d+\.\d{4,}ms\e\[0m\]\\n/";
 
         // Assuming `dumpBenchmark` calculates and dumps benchmark time
         ob_start();
