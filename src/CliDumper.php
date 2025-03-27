@@ -83,6 +83,8 @@ class CliDumper
             # cast specific types to more readable form and return them immediately
             if ($isLeaf($var)) {
                 if (is_null($var)) return $f("NULL", 'null');
+                elseif (is_resource($var)) return $f("resource($var)", 'resource');
+                elseif (is_callable($var)) return $f("closure", 'closure');
                 elseif (is_bool($var)) return $f($var ? 'TRUE' : 'FALSE', 'bool');
                 elseif (is_string($var)) return $f(
                     $this->truncate && strlen($var) > $this->truncate
