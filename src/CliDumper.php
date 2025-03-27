@@ -21,24 +21,6 @@ class CliDumper
     
     /**
      * @var callable callback with params value and type, returning formatted string of a scalar value.
-     * Example of a formatter:
-     * <code>
-     *     $this->dumper->formatter = function(mixed $v, string $type) {
-     *         switch ($type) {
-     *             case 'error':
-     *                 return CLI::color($v, 'red');
-     *             case 'null':
-     *             case 'bool':
-     *                 return CLI::color($v, 'purple');
-     *             case 'string': return CLI::color($v, 'blue');
-     *             case 'trunc':
-     *             case 'empty':
-     *                 return CLI::color($v, 'yellow');
-     *             case 'num': return CLI::color($v, 'green');
-     *         }
-     *         return $v;
-     *     };
-     * </code>
      */
     public $formatter;
     /**
@@ -90,7 +72,7 @@ class CliDumper
         $dump = function ($var, int $level = 0) use(&$dump, $separateLeafs, $f): string
         {
             # fce to determine if the given variable is leaf (scalar or null)
-            $isLeaf = fn($v) => is_scalar($v) || is_null($v);
+            $isLeaf = fn($v) => is_scalar($v) || is_null($v) || is_resource($v) || is_callable($v);
             # fce to determine if the given variable is a parent with only leafs as children or is empty
             $hasOnlyLeafs = fn($v) => !is_scalar($v)
                 && empty(array_filter(
@@ -158,7 +140,7 @@ class CliDumper
         {
             return match ($type) {
                 'error' => CliFormat::format($v, CliDumper::FM_ERROR),
-                'null', 'bool' => CliFormat::format($v, CliDumper::FM_NULL_BOOL),
+                'null', 'bool', 'resource', 'closure' => CliFormat::format($v, CliDumper::FM_NULL_BOOL),
                 'string' => CliFormat::format($v, CliDumper::FM_STRING),
                 'trunc', 'empty' => CliFormat::format($v, CliDumper::FM_TRUNC_EMPTY),
                 'num' => CliFormat::format($v, CliDumper::FM_NUM),
