@@ -232,4 +232,16 @@ class CliDumper
     {
         $this->dumpBenchMark($bm, $msg);
     }
+
+    /**
+     * Use to export a global function cd() => CliDumper::cd()
+     *
+     * @return CliDumper
+     */
+    public static function cd(): CliDumper
+    {
+        $cli = new CliDumper();
+        $cli->formatter = $cli->formatter();
+        return $cli;
+    }
 }
