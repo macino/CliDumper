@@ -148,6 +148,19 @@ $dumper->enabled = false; // Disables all dumps
 $dumper->truncate = 50; // Truncate strings longer than 50 characters
 ```
 
+4. **`$maxDepth`**:
+   - *Type*: `int`
+   - *Default*: `-1` (no limit)
+   - Specifies the maximum depth for nested data structures. If set, the dumper will truncate any nesting deeper than
+     the specified level.
+
+   #### Example:
+
+```php
+$dumper->maxDepth = 3; // Limit the output to 3 levels of nested structures
+$dumper->maxDepth = -1; // No limit on nesting (default behavior)
+```
+
 3. **`$formatter`**:
     - *Type*: `callable`
     - *Default*: A simple formatter that outputs unaltered scalars.

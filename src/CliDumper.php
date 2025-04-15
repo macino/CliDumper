@@ -18,7 +18,9 @@ class CliDumper
      * @var int limit length of a string, 0 for no limit
      */
     public int $truncate = 80;
-    
+    /** @var int maximal depth for recursion, -1 for no limit */
+    public int $maxDepth = -1;
+
     /**
      * @var callable callback with params value and type, returning formatted string of a scalar value.
      */
@@ -71,6 +73,7 @@ class CliDumper
         $f = $this->formatter;
         $dump = function ($var, int $level = 0) use(&$dump, $separateLeafs, $f): string
         {
+            if ($this->maxDepth != -1 && $level > $this->maxDepth) return $f('#max depth reached#', 'error');
             # fce to determine if the given variable is leaf (scalar or null)
             $isLeaf = fn($v) => is_scalar($v) || is_null($v) || is_resource($v) || is_callable($v);
             # fce to determine if the given variable is a parent with only leafs as children or is empty
@@ -80,6 +83,9 @@ class CliDumper
                     fn($v_) => !(is_scalar($v_) || is_null($v_))
                 ))
             ;
+            if (is_object($var) && method_exists($var, '__debugInfo')) {
+                $var = $var->__debugInfo();
+            }
             # cast specific types to more readable form and return them immediately
             if ($isLeaf($var)) {
                 if (is_null($var)) return $f("NULL", 'null');
@@ -174,7 +180,7 @@ class CliDumper
         echo "@ " . CliFormat::format($msg, $color) . "\n";
     }
 
-    
+
     /**
      * Alias for debugMessage
      *
@@ -190,7 +196,7 @@ class CliDumper
         $this->debugMessage($msg, $type);
     }
 
-    
+
     /**
      * Outputs benchmarking information to the CLI.
      *
