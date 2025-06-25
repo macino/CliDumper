@@ -117,7 +117,7 @@ class CliDumper
                 return implode(', ', $rtn);
             }
             # print multi-level object / array with increasing the indentation for each level
-            elseif (is_iterable((array)$var)) {
+            elseif (is_iterable($var)) {
                 $rtn = [];
                 foreach ((array)$var as $k => $v) {
                     $rtn[] = str_repeat(".\t", $level)
